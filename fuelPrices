@@ -1,0 +1,21 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+
+url = 'http://www.erc.go.ke/index.php?option=com_content&view=article&id=162&Itemid=666'
+
+df = pd.read_html(url,skiprows=range(0,10),index_col=0,header=0)
+
+pump_prices = df[0]
+
+pump_prices.dropna(axis=1,how='all',inplace=True)
+pump_prices.dropna(axis=0,how='any',inplace=True)
+pump_prices.drop('Regular',axis=1,inplace=True)
+pump_prices.head()
+
+pump_prices[['Super','Diesel']] = pump_prices[['Super','Diesel']].apply(pd.to_numeric)
+
+pump_prices.plot(figsize=(30,10),kind='bar',title='Pump Prices from Jan 15th,2018 - Feb 14th,2018',stacked=True)
+
